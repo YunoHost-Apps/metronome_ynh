@@ -1,24 +1,7 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
-
-#=================================================
-# DISABLE METRONOME
-#=================================================
-# ynh_script_progression --message="Disabling Metronome..."
-
-# if systemctl list-unit-files metronome.service &>/dev/null
-# then
-# 	ynh_systemd_action --service_name="metronome" --action="stop"
-# 	systemctl disable metronome.service --quiet
-# fi
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -26,25 +9,17 @@ source /usr/share/yunohost/helpers
 ynh_script_progression --message="Setting up source files..."
 
 builddir="$(mktemp -d)"
-# Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$builddir"
 
 #=================================================
-# SPECIFIC SETUP
-#=================================================
-# BUILD PROSODY
+# BUILD
 #=================================================
 ynh_script_progression --message="Building Metronome..."
 
-update-alternatives --set lua-interpreter /usr/bin/lua${luaversion}
-
 pushd "$builddir"
-	./configure --prefix=/usr
-	make
-	make install
+    make DESTDIR=$install_dir
+    make install DESTDIR=$install_dir
 popd
-
-ynh_secure_remove --file="$builddir"
 
 #=================================================
 # ADD A CONFIGURATION
