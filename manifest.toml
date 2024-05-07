@@ -11,7 +11,7 @@ version = "4.0.3~ynh1"
 maintainers = []
 
 [upstream]
-license = "MIT"
+license = "ISC"
 website = "https://archon.im/metronome-im/"
 admindoc = "https://archon.im/metronome-im/documentation/"
 code = "https://github.com/maranda/metronome"
