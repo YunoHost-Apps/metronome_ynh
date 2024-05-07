@@ -1,0 +1,56 @@
+packaging_format = 2
+
+id = "metronome"
+name = "Metronome"
+description.en = "Modern XMPP communication server"
+description.fr = "Serveur de communication XMPP moderne"
+
+version = "4.0.3~ynh1"
+
+maintainers = []
+
+[upstream]
+license = "MIT"
+website = "https://archon.im/metronome-im/"
+admindoc = "https://archon.im/metronome-im/documentation/"
+code = "https://github.com/maranda/metronome"
+
+[integration]
+yunohost = ">= 11.2"
+architectures = "all"
+multi_instance = false
+
+ldap = false
+
+sso = false
+
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "50M"
+
+[install]
+
+[resources]
+        [resources.sources.main]
+        url = "https://github.com/maranda/metronome/archive/refs/tags/v4.0.3.tar.gz"
+        sha256 = "594ff7ebf15c38a73559c9ac6b5cd010b6c5aa8ed28ab68d5530ce0eb07bf81c"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.data_dir]
+
+    [resources.ports]
+    file.default=5000
+    client.default=5222
+    server.default=5269
+    http.default=5280
+    https.default=5281
+    component.default=5347
+    telnet.default=5582
+
+    [resources.permissions]
+
+    [resources.apt]
+    packages = "libicu-dev, libidn11-dev, liblua5.2-dev, libssl-dev, lua-busted, lua5.2, lua5.2-expat, lua5.2-socket, openssl, txt2man, lua5.2-sec, lua5.2-unbound"

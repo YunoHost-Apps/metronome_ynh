@@ -1,0 +1,119 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# DISABLE METRONOME
+#=================================================
+# ynh_script_progression --message="Disabling Metronome..."
+
+# if systemctl list-unit-files metronome.service &>/dev/null
+# then
+# 	ynh_systemd_action --service_name="metronome" --action="stop"
+# 	systemctl disable metronome.service --quiet
+# fi
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression --message="Setting up source files..."
+
+builddir="$(mktemp -d)"
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$builddir"
+
+#=================================================
+# SPECIFIC SETUP
+#=================================================
+# BUILD PROSODY
+#=================================================
+ynh_script_progression --message="Building Metronome..."
+
+update-alternatives --set lua-interpreter /usr/bin/lua${luaversion}
+
+pushd "$builddir"
+	./configure --prefix=/usr
+	make
+	make install
+popd
+
+ynh_secure_remove --file="$builddir"
+
+#=================================================
+# ADD A CONFIGURATION
+#=================================================
+ynh_script_progression --message="Adding a configuration file..."
+
+config_path=/etc/$app
+ynh_app_setting_set --app=$app --key=config_path --value=$config_path
+mkdir -p $config_path
+mkdir -p $config_path/{certs,conf.avail,conf.d}
+
+ynh_add_config --template="metronome.cfg.lua" --destination="$config_path/metronome.cfg.lua"
+ynh_add_config --template="example.com.cfg.lua" --destination="$config_path/conf.avail/example.com.cfg.lua"
+#ynh_add_config --template="../conf/localhost.cfg.lua" --destination="$config_path/conf.avail/localhost.cfg.lua"
+#ln -s $config_path/conf.avail/localhost.cfg.lua $config_path/conf.d/
+
+chown root:root "$config_path"
+chmod 755 "$config_path"
+
+chown root:$app "$config_path/conf.d"
+chmod 754 "$config_path/conf.d"
+
+chown root:$app "$config_path/conf.avail"
+chmod 754 "$config_path/conf.avail"
+
+chown root:$app "$config_path/certs"
+chmod 750 "$config_path/certs"
+
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_script_progression --message="Configuring a systemd service..."
+
+# Create a dedicated systemd config
+ynh_add_systemd_config
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SETUP LOGROTATE
+#=================================================
+ynh_script_progression --message="Configuring log rotation..."
+
+mkdir -p "/var/log/$app"
+chmod 750 "/var/log/$app"
+chmod -R o-rwx "/var/log/$app"
+chown -R $app:adm "/var/log/$app"
+chown -R $app:$app "/var/lib/$app"
+
+# Use logrotate to manage application logfile(s)
+ynh_use_logrotate
+
+#=================================================
+# INTEGRATE SERVICE IN YUNOHOST
+#=================================================
+ynh_script_progression --message="Integrating service in YunoHost..."
+
+yunohost service add $app --log="/var/log/$app/$app.log"
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Starting a systemd service..."
+
+# Start a systemd service
+ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Installation of $app completed"
