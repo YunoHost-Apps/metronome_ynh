@@ -28,6 +28,9 @@ ram.runtime = "50M"
 
 [install]
 
+    [install.domain]
+    type = "domain"
+
 [resources]
         
     [resources.sources.main]
