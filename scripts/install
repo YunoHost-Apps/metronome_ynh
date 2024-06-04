@@ -13,11 +13,17 @@ ynh_setup_source --dest_dir="$builddir"
 
 pushd "$builddir"
     cp docker/config.unix ./
-    ynh_replace_string --match_string="DATADIR=.*" --replace_string="DATADIR=$data_dir" --target_file="config.unix"
-    ynh_replace_string --match_string="SYSCONFDIR=.*" --replace_string="SYSCONFDIR=$install_dir/conf" --target_file="config.unix"
-    make generate_log.install DESTDIR=$install_dir
-    make send_mail.install DESTDIR=$install_dir
-    make install DESTDIR=$install_dir
+    make generate_log.install send_mail.install install \
+        DESTDIR=$install_dir \
+        BIN=$install_dir/bin \
+        CONFIG=$install_dir/conf \
+        MODULES=$install_dir/modules \
+        SOURCE=$install_dir/lib \
+        DATA=$data_dir \
+        NSTALLEDCONFIG=$install_dir/conf \
+        INSTALLEDMODULES=$install_dir/modules \
+        INSTALLEDSOURCE=$install_dir/lib \
+        INSTALLEDDATA=$data_dir
 popd
 
 chmod 750 "$install_dir"
