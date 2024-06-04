@@ -51,4 +51,4 @@ ram.runtime = "50M"
     [resources.permissions]
 
     [resources.apt]
-    packages = "build-base linux-headers make git lua5.3 lua5.3-dev lua5.3-socket lua5.3-expat lua5.3-filesystem lua5.3-dbi-mysql lua5.3-dbi-postgresql lua5.3-dbi-sqlite3 lua5.3-sec libidn libidn-dev openssl openssl-dev libevent libevent-dev zlib zlib-dev luarocks5.3"
+    packages = "make git lua5.3 liblua5.3-dev lua5.3-socket lua5.3-expat lua5.3-filesystem lua5.3-dbi-mysql lua5.3-dbi-postgresql lua5.3-dbi-sqlite3 lua5.3-sec libidn11-dev libssl-dev lua-event lua-event-dev lua-zlib lua-zlib-dev"
