@@ -2,9 +2,9 @@
 
 # This script is expeced to be called xx-nginx_$app
 app=$(basename $0 | cut -d_ -f2-)
-domain=$(yunohost app setting get $app domain)
-data_dir=$(yunohost app setting get $app data_dir)
-port_http=$(yunohost app setting get $app port_http)
+domain=$(yunohost app setting $app domain)
+data_dir=$(yunohost app setting $app data_dir)
+port_http=$(yunohost app setting $app port_http)
 action=$1
 pending_dir=$4
 nginx_domain_conf="${pending_dir}/../nginx/etc/nginx/conf.d/$domain.conf"
