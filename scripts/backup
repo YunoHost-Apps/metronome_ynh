@@ -15,31 +15,13 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_print_info --message="Declaring files to be backed up..."
 
-#=================================================
-# BACKUP THE CONFIG DIR
-#=================================================
+ynh_backup --src_path="$install_dir"
 
 ynh_backup --src_path="$config_path"
 
-#=================================================
-# BACKUP THE DATA DIR
-#=================================================
-
 ynh_backup --src_path="$data_dir" --is_big
 
-ynh_backup --src_path="/var/lib/$app"
-
-#=================================================
-# SPECIFIC BACKUP
-#=================================================
-# BACKUP LOGROTATE
-#=================================================
-
 ynh_backup --src_path="/etc/logrotate.d/$app"
-
-#=================================================
-# BACKUP SYSTEMD
-#=================================================
 
 ynh_backup --src_path="/etc/systemd/system/$app.service"
 
