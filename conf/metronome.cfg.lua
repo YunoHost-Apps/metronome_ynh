@@ -73,11 +73,8 @@ modules_enabled = {
 pidfile = "/var/run/__APP__/__APP__.pid"
 
 -- HTTP server
-http_ports = { 5290 }
+http_ports = { __PORT_HTTP__ }
 http_interfaces = { "127.0.0.1", "::1" }
-
---https_ports = { 5291 }
---https_interfaces = { "127.0.0.1", "::1" }
 
 -- Enable IPv6
 use_ipv6 = true
@@ -102,8 +99,8 @@ csi_config_queue_all_muc_messages_but_mentions = false;
 
 -- Logging configuration
 log = {
-	info = "/var/log/__APP__/metronome.log"; -- Change 'info' to 'debug' for verbose logging
-	error = "/var/log/__APP__/metronome.err";
+	info = "/var/log/__APP__/__APP__.log"; -- Change 'info' to 'debug' for verbose logging
+	error = "/var/log/__APP__/__APP__.err";
 	-- "*syslog"; -- Uncomment this for logging to syslog
 	-- "*console"; -- Log to the console, useful for debugging with daemonize=false
 }

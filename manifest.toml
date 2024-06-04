@@ -49,7 +49,9 @@ ram.runtime = "50M"
     server.default = 5269
     client.fixed = true
     server.fixed = true
-    http_upload.default = 5590
+    client.exposed = true
+    server.exposed = true
+    http.default = 5290
 
     [resources.permissions]
 

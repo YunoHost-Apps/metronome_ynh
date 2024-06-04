@@ -4,6 +4,7 @@
 app=$(basename $0 | cut -d_ -f2-)
 domain=$(yunohost app setting get $app domain)
 data_dir=$(yunohost app setting get $app data_dir)
+port_http=$(yunohost app setting get $app port_http)
 action=$1
 pending_dir=$4
 nginx_domain_conf="${pending_dir}/../nginx/etc/nginx/conf.d/$domain.conf"
@@ -27,7 +28,7 @@ server {
         alias $data_dir/xmpp-upload;
         # Pass all requests to metronome, except for GET and HEAD requests.
         limit_except GET HEAD {
-          proxy_pass http://localhost:5290;
+          proxy_pass http://localhost:$port_http;
         }
 
         include proxy_params;
