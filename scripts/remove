@@ -22,6 +22,9 @@ ynh_remove_systemd_config
 # Remove the app-specific logrotate config
 ynh_remove_logrotate
 
+ynh_secure_remove --file="/usr/share/yunohost/hooks/conf_regen/98-nginx_$app"
+yunohost tools regen-conf nginx
+
 ynh_secure_remove --file="/var/log/$app"
 
 #=================================================

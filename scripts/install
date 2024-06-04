@@ -30,6 +30,14 @@ chmod 750 "$install_dir"
 chown -R $app:$app "$install_dir"
 
 #=================================================
+# CONFIGURE NGINX
+#=================================================
+ynh_script_progression --message="Configuring Nginx for muc and xmpp-upload domains..."
+
+cp -R ../conf/hook_conf_regen_nginx.sh /usr/share/yunohost/hooks/conf_regen/98-nginx_$app
+yunohost tools regen-conf nginx
+
+#=================================================
 # ADD A CONFIGURATION
 #=================================================
 ynh_script_progression --message="Configuring Metronome..."
