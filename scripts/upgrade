@@ -36,38 +36,30 @@ ynh_script_progression --message="Stopping a systemd service..."
 ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
 
 #=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
-
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-	ynh_script_progression --message="Upgrading source files..."
-
-	builddir="$(mktemp -d)"
-	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$builddir"
-fi
-
-#=================================================
-# SPECIFIC UPGRADE
-#=================================================
-# BUILD PROSODY
+# BUILD METRONOME
 #=================================================
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Building Metronome..."
 
-	update-alternatives --set lua-interpreter /usr/bin/lua${luaversion}
+    builddir="$(mktemp -d)"
+    ynh_setup_source --dest_dir="$builddir"
+    
+    ynh_secure_remove --file="$install_dir"
+    mkdir -p "$install_dir"
 
-	pushd "$builddir"
-		./configure --prefix=/usr
-		make
-		make install
-	popd
+    pushd "$builddir"
+        cp docker/config.unix ./
+        make generate_log.install DESTDIR=$install_dir
+        make send_mail.install DESTDIR=$install_dir
+        make install DESTDIR=$install_dir
+    popd
 
 	ynh_secure_remove --file="$builddir"
 fi
+
+chown -R $app:$app "$install_dir"
 
 #=================================================
 # UPDATE A CONFIG FILE
@@ -113,7 +105,6 @@ mkdir -p "/var/log/$app"
 chmod 750 "/var/log/$app"
 chmod -R o-rwx "/var/log/$app"
 chown -R $app:adm "/var/log/$app"
-chown -R $app:$app "/var/lib/$app"
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append

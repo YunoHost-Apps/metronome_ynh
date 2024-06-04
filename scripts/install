@@ -4,17 +4,12 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
-ynh_script_progression --message="Setting up source files..."
-
-builddir="$(mktemp -d)"
-ynh_setup_source --dest_dir="$builddir"
-
-#=================================================
 # BUILD
 #=================================================
 ynh_script_progression --message="Building Metronome..."
+
+builddir="$(mktemp -d)"
+ynh_setup_source --dest_dir="$builddir"
 
 pushd "$builddir"
     cp docker/config.unix ./
