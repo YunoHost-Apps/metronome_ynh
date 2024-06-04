@@ -18,6 +18,8 @@ ynh_script_progression --message="Building Metronome..."
 
 pushd "$builddir"
     cp docker/config.unix ./
+    make generate_log.install DESTDIR=$install_dir
+    make send_mail.install DESTDIR=$install_dir
     make install DESTDIR=$install_dir
 popd
 
