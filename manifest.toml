@@ -2,38 +2,41 @@ packaging_format = 2
 
 id = "metronome"
 name = "Metronome"
-description.en = "Modern XMPP communication server"
-description.fr = "Serveur de communication XMPP moderne"
+
+description.en = "A lightweight XMPP server with advanced microblogging features."
+description.fr = "Un serveur XMPP léger avec des fonctionnalités avancées de microblogging"
 
 version = "4.0.3~ynh1"
 
 maintainers = []
 
 [upstream]
-license = "MIT"
+license = "ISC"
 website = "https://archon.im/metronome-im/"
 admindoc = "https://archon.im/metronome-im/documentation/"
 code = "https://github.com/maranda/metronome"
 
 [integration]
-yunohost = ">= 11.2"
+yunohost = ">= 12.0"
 architectures = "all"
 multi_instance = false
-
-ldap = false
-
-sso = false
-
+ldap = true
+sso = "not_relevant"
 disk = "50M"
 ram.build = "50M"
 ram.runtime = "50M"
 
 [install]
 
+    [install.domain]
+    type = "domain"
+
 [resources]
-        [resources.sources.main]
-        url = "https://github.com/maranda/metronome/archive/refs/tags/v4.0.3.tar.gz"
-        sha256 = "594ff7ebf15c38a73559c9ac6b5cd010b6c5aa8ed28ab68d5530ce0eb07bf81c"
+        
+    [resources.sources.main]
+    url = "https://github.com/maranda/metronome/archive/refs/tags/v4.0.3.tar.gz"
+    sha256 = "594ff7ebf15c38a73559c9ac6b5cd010b6c5aa8ed28ab68d5530ce0eb07bf81c"
+    autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
 
@@ -42,15 +45,13 @@ ram.runtime = "50M"
     [resources.data_dir]
 
     [resources.ports]
-    file.default=5000
-    client.default=5222
-    server.default=5269
-    http.default=5280
-    https.default=5281
-    component.default=5347
-    telnet.default=5582
+    client.default = 5222
+    server.default = 5269
+    client.fixed = true
+    server.fixed = true
+    http_upload.default = 5590
 
     [resources.permissions]
 
     [resources.apt]
-    packages = "libicu-dev, libidn11-dev, liblua5.2-dev, libssl-dev, lua-busted, lua5.2, lua5.2-expat, lua5.2-socket, openssl, txt2man, lua5.2-sec, lua5.2-unbound"
+    packages = "make git lua5.3 liblua5.3-dev lua5.3-socket lua5.3-expat lua5.3-filesystem lua5.3-dbi-mysql lua5.3-dbi-postgresql lua5.3-dbi-sqlite3 lua5.3-sec libidn11-dev libssl-dev lua-event lua-event-dev lua-zlib lua-zlib-dev"

@@ -36,63 +36,46 @@ ynh_script_progression --message="Stopping a systemd service..."
 ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
 
 #=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
-
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-	ynh_script_progression --message="Upgrading source files..."
-
-	builddir="$(mktemp -d)"
-	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$builddir"
-fi
-
-#=================================================
-# SPECIFIC UPGRADE
-#=================================================
-# BUILD PROSODY
+# BUILD METRONOME
 #=================================================
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Building Metronome..."
 
-	update-alternatives --set lua-interpreter /usr/bin/lua${luaversion}
+    builddir="$(mktemp -d)"
+    ynh_setup_source --dest_dir="$builddir"
+   
+    cp -r $install_dir/conf $builddir/conf_bkp
+    ynh_secure_remove --file="$install_dir"
+    mkdir -p "$install_dir"
 
-	pushd "$builddir"
-		./configure --prefix=/usr
-		make
-		make install
-	popd
+    pushd "$builddir"
+        cp docker/config.unix ./
+        make generate_log.install DESTDIR=$install_dir
+        make send_mail.install DESTDIR=$install_dir
+        make install DESTDIR=$install_dir
+    popd
+    
+    cp -r $builddir/conf_bkp $install_dir/conf
 
 	ynh_secure_remove --file="$builddir"
 fi
 
+chmod 750 "$install_dir"
+chown -R $app:$app "$install_dir"
+
 #=================================================
-# UPDATE A CONFIG FILE
+# ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Updating a configuration file..."
+ynh_script_progression --message="Configuring Metronome..."
 
-mkdir -p $config_path
-mkdir -p $config_path/{certs,conf.avail,conf.d}
+mkdir -p $install_dir/conf
+chmod 700 $install_dir/conf
+chown $app:root $install_dir/conf
 
-ynh_add_config --template="metronome.cfg.lua" --destination="$config_path/metronome.cfg.lua"
-ynh_add_config --template="example.com.cfg.lua" --destination="$config_path/conf.avail/example.com.cfg.lua"
-#ynh_add_config --template="../conf/localhost.cfg.lua" --destination="$config_path/conf.avail/localhost.cfg.lua"
-#ln -s $config_path/conf.avail/localhost.cfg.lua $config_path/conf.d/
-
-chown root:root "$config_path"
-chmod 755 "$config_path"
-
-chown root:$app "$config_path/conf.d"
-chmod 754 "$config_path/conf.d"
-
-chown root:$app "$config_path/conf.avail"
-chmod 754 "$config_path/conf.avail"
-
-chown root:$app "$config_path/certs"
-chmod 750 "$config_path/certs"
+ynh_add_config --template="metronome.cfg.lua" --destination="$install_dir/conf/metronome.cfg.lua"
+ynh_add_config --template="domain.cfg.lua" --destination="$install_dir/conf/domain.cfg.lua"
 
 #=================================================
 # SETUP SYSTEMD
@@ -113,7 +96,6 @@ mkdir -p "/var/log/$app"
 chmod 750 "/var/log/$app"
 chmod -R o-rwx "/var/log/$app"
 chown -R $app:adm "/var/log/$app"
-chown -R $app:$app "/var/lib/$app"
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append

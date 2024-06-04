@@ -1,11 +1,5 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -28,35 +22,7 @@ ynh_remove_systemd_config
 # Remove the app-specific logrotate config
 ynh_remove_logrotate
 
-#=================================================
-# SPECIFIC REMOVE
-#=================================================
-# REMOVE VARIOUS FILES
-#=================================================
-ynh_script_progression --message="Removing various files..."
-
-# Remove a directory securely
-ynh_secure_remove --file="$config_path"
-
-# Remove the log files
 ynh_secure_remove --file="/var/log/$app"
-
-ynh_secure_remove --file="/run/$app"
-ynh_secure_remove --file="/var/lib/$app"
-ynh_secure_remove --file="/usr/bin/metronome"
-ynh_secure_remove --file="/usr/bin/metronomectl"
-ynh_secure_remove --file="/usr/bin/metronome-migrator"
-
-#=================================================
-# ENABLE METRONOME
-#=================================================
-# ynh_script_progression --message="Enabling Metronome..."
-
-# if systemctl list-unit-files metronome.service &>/dev/null
-# then
-# 	systemctl enable metronome.service --quiet
-# 	ynh_systemd_action --service_name="metronome" --action="start"
-# fi
 
 #=================================================
 # END OF SCRIPT
