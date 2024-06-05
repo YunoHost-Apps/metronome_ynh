@@ -70,6 +70,9 @@ chown -R $app:$app "$install_dir"
 #=================================================
 ynh_script_progression --message="Configuring Metronome..."
 
+# Metronome needs access to yunohost ssl certs
+usermod -a -G ssl-cert $app
+
 mkdir -p $install_dir/conf
 chmod 700 $install_dir/conf
 chown $app:root $install_dir/conf
@@ -112,7 +115,7 @@ yunohost service add $app --log="/var/log/$app/$app.log" --needs_exposed_ports $
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log" --line_match="Hello and welcome to Metronome"
 
 #=================================================
 # END OF SCRIPT
