@@ -45,18 +45,26 @@ then
 
     builddir="$(mktemp -d)"
     ynh_setup_source --dest_dir="$builddir"
-   
+
     cp -r $install_dir/conf $builddir/conf_bkp
     ynh_secure_remove --file="$install_dir"
     mkdir -p "$install_dir"
 
     pushd "$builddir"
         cp docker/config.unix ./
-        make generate_log.install DESTDIR=$install_dir
-        make send_mail.install DESTDIR=$install_dir
-        make install DESTDIR=$install_dir
+        make generate_log.install send_mail.install install \
+            DESTDIR=$install_dir \
+            BIN=$install_dir/bin \
+            CONFIG=$install_dir/conf \
+            MODULES=$install_dir/modules \
+            SOURCE=$install_dir/lib \
+            DATA=$data_dir \
+            INSTALLEDCONFIG=$install_dir/conf \
+            INSTALLEDMODULES=$install_dir/modules \
+            INSTALLEDSOURCE=$install_dir/lib \
+            INSTALLEDDATA=$data_dir
     popd
-    
+
     cp -r $builddir/conf_bkp $install_dir/conf
 
 	ynh_secure_remove --file="$builddir"
