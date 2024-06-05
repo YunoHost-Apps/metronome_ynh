@@ -70,6 +70,9 @@ chown -R $app:$app "$install_dir"
 #=================================================
 ynh_script_progression --message="Configuring Metronome..."
 
+# Add YunoHost modules (are all those really needed ? Could just ldap2 ?)
+cp ../conf/modules/* $install_dir/modules/
+
 # Metronome needs access to yunohost ssl certs
 usermod -a -G ssl-cert $app
 
