@@ -20,6 +20,14 @@ chown -R $app:$app "$data_dir"
 usermod -a -G ssl-cert $app
 
 #=================================================
+# CONFIGURE NGINX
+#=================================================
+ynh_script_progression --message="Configuring Nginx for muc and xmpp-upload domains..."
+
+cp -R ../conf/hook_conf_regen /usr/share/yunohost/hooks/conf_regen/98-nginx_$app
+yunohost tools regen-conf nginx
+
+#=================================================
 # RESTORE SYSTEMD
 #=================================================
 ynh_script_progression --message="Restoring the systemd configuration..."

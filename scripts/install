@@ -34,7 +34,7 @@ chown -R $app:$app "$install_dir"
 #=================================================
 ynh_script_progression --message="Configuring Nginx for muc and xmpp-upload domains..."
 
-cp -R ../conf/hook_conf_regen_nginx.sh /usr/share/yunohost/hooks/conf_regen/98-nginx_$app
+cp -R ../conf/hook_conf_regen /usr/share/yunohost/hooks/conf_regen/98-nginx_$app
 yunohost tools regen-conf nginx
 
 #=================================================
