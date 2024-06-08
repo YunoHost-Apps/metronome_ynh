@@ -1,0 +1,30 @@
+# This script is expected to be called xx-$app
+app=$(basename $0 | cut -d- -f2)
+domain=$(yunohost app setting $app domain)
+
+if [[ "$domain" != "$base_domain" ]]
+then
+    exit 0
+fi
+
+cat << EOF >> $YNH_STDRETURN
+- name: "_xmpp-client._tcp$suffix"
+  ttl: 3600
+  type: "SRV"
+  value: "0 5 5222 $domain."
+
+- name: "_xmpp-client._tcp$suffix"
+  ttl: 3600
+  type: "SRV"
+  value: "0 5 5269 $domain."
+
+- name: "muc$suffix"
+  ttl: 3600
+  type: "CNAME"
+  value: "$domain."
+
+- name: "xmpp-upload$suffix"
+  ttl: 3600
+  type: "CNAME"
+  value: "$domain."
+EOF
