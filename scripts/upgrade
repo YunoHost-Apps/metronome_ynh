@@ -65,6 +65,7 @@ then
             INSTALLEDDATA=$data_dir
     popd
 
+	ynh_secure_remove --file="$install_dir/conf"
     cp -r $builddir/conf_bkp $install_dir/conf
 
 	ynh_secure_remove --file="$builddir"
