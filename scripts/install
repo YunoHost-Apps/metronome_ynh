@@ -72,6 +72,8 @@ ynh_script_progression --message="Configuring log rotation..."
 
 mkdir -p "/var/log/$app"
 chmod 750 "/var/log/$app"
+touch "/var/log/$app/$app.log"
+touch "/var/log/$app/$app.err"
 chmod -R o-rwx "/var/log/$app"
 chown -R $app:$app "/var/log/$app"
 
@@ -92,12 +94,6 @@ ynh_script_progression --message="Starting a systemd service..."
 
 # Start a systemd service
 ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log" --line_match="Hello and welcome to Metronome"
-
-# Debugging
-sleep 2
-cat /var/log/$app/$app.log
-sleep 2
-cat /var/log/$app/$app.err
 
 #=================================================
 # END OF SCRIPT
