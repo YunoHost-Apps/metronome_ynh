@@ -1,77 +1,59 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# DISABLE METRONOME
-#=================================================
-# ynh_script_progression --message="Disabling Metronome..."
-
-# if systemctl list-unit-files metronome.service &>/dev/null
-# then
-# 	ynh_systemd_action --service_name="metronome" --action="stop"
-# 	systemctl disable metronome.service --quiet
-# fi
-
-#=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
-ynh_script_progression --message="Setting up source files..."
-
-builddir="$(mktemp -d)"
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$builddir"
-
-#=================================================
-# SPECIFIC SETUP
-#=================================================
-# BUILD PROSODY
+# BUILD
 #=================================================
 ynh_script_progression --message="Building Metronome..."
 
-update-alternatives --set lua-interpreter /usr/bin/lua${luaversion}
+builddir="$(mktemp -d)"
+ynh_setup_source --dest_dir="$builddir"
 
 pushd "$builddir"
-	./configure --prefix=/usr
-	make
-	make install
+    cp docker/config.unix ./
+    make generate_log.install send_mail.install install \
+        DESTDIR=$install_dir \
+        BIN=$install_dir/bin \
+        CONFIG=$install_dir/conf \
+        MODULES=$install_dir/modules \
+        SOURCE=$install_dir/lib \
+        DATA=$data_dir \
+        INSTALLEDCONFIG=$install_dir/conf \
+        INSTALLEDMODULES=$install_dir/modules \
+        INSTALLEDSOURCE=$install_dir/lib \
+        INSTALLEDDATA=$data_dir
 popd
 
-ynh_secure_remove --file="$builddir"
+chmod 750 "$install_dir"
+chown -R $app:$app "$install_dir"
+
+#=================================================
+# CONFIGURE NGINX
+#=================================================
+ynh_script_progression --message="Configuring Nginx for muc and xmpp-upload domains..."
+
+cp -R ../conf/hook_conf_regen /usr/share/yunohost/hooks/conf_regen/98-nginx_$app
+yunohost tools regen-conf nginx
 
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a configuration file..."
+ynh_script_progression --message="Configuring Metronome..."
 
-config_path=/etc/$app
-ynh_app_setting_set --app=$app --key=config_path --value=$config_path
-mkdir -p $config_path
-mkdir -p $config_path/{certs,conf.avail,conf.d}
+# Add YunoHost modules (are all those really needed ? Could just ldap2 ?)
+cp ../conf/modules/* $install_dir/modules/
 
-ynh_add_config --template="metronome.cfg.lua" --destination="$config_path/metronome.cfg.lua"
-ynh_add_config --template="example.com.cfg.lua" --destination="$config_path/conf.avail/example.com.cfg.lua"
-#ynh_add_config --template="../conf/localhost.cfg.lua" --destination="$config_path/conf.avail/localhost.cfg.lua"
-#ln -s $config_path/conf.avail/localhost.cfg.lua $config_path/conf.d/
+# Metronome needs access to yunohost ssl certs
+usermod -a -G ssl-cert $app
 
-chown root:root "$config_path"
-chmod 755 "$config_path"
+mkdir -p $install_dir/conf
+chmod 700 $install_dir/conf
+chown $app:root $install_dir/conf
 
-chown root:$app "$config_path/conf.d"
-chmod 754 "$config_path/conf.d"
-
-chown root:$app "$config_path/conf.avail"
-chmod 754 "$config_path/conf.avail"
-
-chown root:$app "$config_path/certs"
-chmod 750 "$config_path/certs"
+ynh_add_config --template="metronome.cfg.lua" --destination="$install_dir/conf/metronome.cfg.lua"
+ynh_add_config --template="domain.cfg.lua" --destination="$install_dir/conf/domain.cfg.lua"
 
 #=================================================
 # SETUP SYSTEMD
@@ -90,9 +72,10 @@ ynh_script_progression --message="Configuring log rotation..."
 
 mkdir -p "/var/log/$app"
 chmod 750 "/var/log/$app"
+touch "/var/log/$app/$app.log"
+touch "/var/log/$app/$app.err"
 chmod -R o-rwx "/var/log/$app"
-chown -R $app:adm "/var/log/$app"
-chown -R $app:$app "/var/lib/$app"
+chown -R $app:$app "/var/log/$app"
 
 # Use logrotate to manage application logfile(s)
 ynh_use_logrotate
@@ -102,7 +85,7 @@ ynh_use_logrotate
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --log="/var/log/$app/$app.log"
+yunohost service add $app --log="/var/log/$app/$app.log" --needs_exposed_ports $port_client $port_server
 
 #=================================================
 # START SYSTEMD SERVICE
@@ -110,7 +93,7 @@ yunohost service add $app --log="/var/log/$app/$app.log"
 ynh_script_progression --message="Starting a systemd service..."
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log" --line_match="Hello and welcome to Metronome"
 
 #=================================================
 # END OF SCRIPT
