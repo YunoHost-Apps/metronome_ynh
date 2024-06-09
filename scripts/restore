@@ -24,7 +24,7 @@ usermod -a -G ssl-cert $app
 #=================================================
 ynh_script_progression --message="Configuring Nginx for muc and xmpp-upload domains..."
 
-cp -R ../conf/hook_conf_regen /usr/share/yunohost/hooks/conf_regen/98-nginx_$app
+cp -R $YNH_APP_BASEDIR/conf/hook_conf_regen /usr/share/yunohost/hooks/conf_regen/98-nginx_$app
 yunohost tools regen-conf nginx
 
 #=================================================
