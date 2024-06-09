@@ -16,7 +16,18 @@ It shall NOT be edited by hand.
 
 ## Overview
 
-Prosody is a modern XMPP communication server. It aims to be easy to set up and configure, and efficient with system resources. Additionally, for developers it aims to be easy to extend and give a flexible system on which to rapidly develop added functionality, or prototype new protocols.
+Metronome is a light-weight [XMPP](https://en.wikipedia.org/wiki/XMPP) instant-messaging server written in Lua and based on Prosody. It's aimed to provide advanced features while maintaining a modest resource usage. More details on [the official website](https://archon.im/metronome-im/).
+
+To use Metronome / XMPP, you will also need a client, for example:
+
+- [Movim](https://movim.eu) - Web - available as a YunoHost app
+- [ConverseJS](https://conversejs.org) - Web - available as a YunoHost app
+- [Gajim](https://gajim.org/) - Linux, Windows
+- [Dino](https://dino.im) - Linux
+- [Thunderbird](https://www.thunderbird.net/fr/) - Linux, Windows, MacOS
+- [Conversations](https://conversations.im/) - Android
+
+You will be able to connect using `your_yunohost_username@domain.tld` + your password (i.e. your credentials are the same as for email, but for instant messaging)
 
 
 **Shipped version:** 4.0.3~ynh1
