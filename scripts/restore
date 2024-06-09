@@ -42,6 +42,8 @@ ynh_script_progression --message="Restoring the logrotate configuration..."
 
 mkdir -p "/var/log/$app"
 chmod 750 "/var/log/$app"
+touch "/var/log/$app/$app.log"
+touch "/var/log/$app/$app.err"
 chmod -R o-rwx "/var/log/$app"
 chown -R $app:adm "/var/log/$app"
 
