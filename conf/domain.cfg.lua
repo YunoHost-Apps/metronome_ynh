@@ -1,8 +1,8 @@
 VirtualHost "__DOMAIN__"
   enable = true
   ssl = {
-        key = "/etc/yunohost/certs/__DOMAIN__/key.pem";
-        certificate = "/etc/yunohost/certs/__DOMAIN__/crt.pem";
+    key = "/etc/yunohost/certs/__DOMAIN__/key.pem";
+    certificate = "/etc/yunohost/certs/__DOMAIN__/crt.pem";
   }
   authentication = "ldap2"
   ldap = {
@@ -30,6 +30,11 @@ VirtualHost "__DOMAIN__"
 ---Set up a MUC (multi-user chat) room server
 Component "muc.__DOMAIN__" "muc"
   name = "__DOMAIN__ Chatrooms"
+
+  ssl = {
+    key = "/etc/yunohost/certs/__DOMAIN__/key.pem";
+    certificate = "/etc/yunohost/certs/__DOMAIN__/crt.pem";
+  }
 
   modules_enabled = {
     "muc_limits";
