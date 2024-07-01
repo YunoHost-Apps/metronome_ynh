@@ -1,3 +1,5 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+
 packaging_format = 2
 
 id = "metronome"
@@ -36,7 +38,7 @@ ram.runtime = "50M"
     default = "all_users"
 
 [resources]
-        
+
     [resources.sources.main]
     url = "https://github.com/maranda/metronome/archive/refs/tags/v4.0.3.tar.gz"
     sha256 = "594ff7ebf15c38a73559c9ac6b5cd010b6c5aa8ed28ab68d5530ce0eb07bf81c"
@@ -60,4 +62,23 @@ ram.runtime = "50M"
     [resources.permissions]
 
     [resources.apt]
-    packages = "make git lua5.3 liblua5.3-dev lua5.3-socket lua5.3-expat lua5.3-filesystem lua5.3-dbi-mysql lua5.3-dbi-postgresql lua5.3-dbi-sqlite3 lua5.3-sec libidn11-dev libssl-dev lua-event lua-event-dev lua-zlib lua-zlib-dev lua-ldap"
+    packages = [
+        "make",
+        "git",
+        "lua5.3",
+        "liblua5.3-dev",
+        "lua5.3-socket",
+        "lua5.3-expat",
+        "lua5.3-filesystem",
+        "lua5.3-dbi-mysql",
+        "lua5.3-dbi-postgresql",
+        "lua5.3-dbi-sqlite3",
+        "lua5.3-sec",
+        "libidn11-dev",
+        "libssl-dev",
+        "lua-event",
+        "lua-event-dev",
+        "lua-zlib",
+        "lua-zlib-dev",
+        "lua-ldap",
+    ]
