@@ -8,12 +8,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# CHECK VERSION
-#=================================================
-
-upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
 # DISABLE METRONOME
 #=================================================
 # ynh_script_progression --message="Disabling Metronome..."
@@ -25,13 +19,11 @@ upgrade_type=$(ynh_check_app_version_changed)
 # fi
 
 #=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..."
+ynh_script_progression --message="Stopping $app's systemd service..."
 
-ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name="$app" --action="stop" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -44,48 +36,17 @@ ynh_setup_source --dest_dir="$install_dir/sources" --full_replace=1
 # BUILD
 #=================================================
 
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-	ynh_script_progression --message="Building Metronome..."
+ynh_script_progression --message="Building Metronome..."
 
-    builddir="$(mktemp -d)"
-    ynh_setup_source --dest_dir="$builddir"
+# Back up the conf dir
+mv "$install_dir/conf" "$install_dir/conf_bkp"
+_build_metronome
 
-    cp -r $install_dir/conf $builddir/conf_bkp
-    ynh_secure_remove --file="$install_dir"
-    mkdir -p "$install_dir"
-
-    pushd "$builddir"
-        cp docker/config.unix ./
-        make generate_log.install send_mail.install install \
-            DESTDIR=$install_dir \
-            BIN=$install_dir/bin \
-            CONFIG=$install_dir/conf \
-            MODULES=$install_dir/modules \
-            SOURCE=$install_dir/lib \
-            DATA=$data_dir \
-            INSTALLEDCONFIG=$install_dir/conf \
-            INSTALLEDMODULES=$install_dir/modules \
-            INSTALLEDSOURCE=$install_dir/lib \
-            INSTALLEDDATA=$data_dir
-    popd
-
-	ynh_secure_remove --file="$install_dir/conf"
-    cp -r $builddir/conf_bkp $install_dir/conf
-
-	ynh_secure_remove --file="$builddir"
-fi
+ynh_secure_remove --file="$install_dir/conf"
+cp -r "$install_dir/conf_bkp" "$install_dir/conf"
 
 chmod 750 "$install_dir"
-chown -R $app:$app "$install_dir"
-
-#=================================================
-# CONFIGURE NGINX
-#=================================================
-ynh_script_progression --message="Configuring Nginx for muc and xmpp-upload domains..."
-
-cp -R ../conf/hook_conf_regen /usr/share/yunohost/hooks/conf_regen/98-nginx_$app
-yunohost tools regen-conf nginx
+chown -R "$app:$app" "$install_dir"
 
 #=================================================
 # ADD A CONFIGURATION
@@ -93,10 +54,7 @@ yunohost tools regen-conf nginx
 ynh_script_progression --message="Configuring Metronome..."
 
 # Add YunoHost modules (are all those really needed ? Could just ldap2 ?)
-cp ../conf/modules/* $install_dir/modules/
-
-# Metronome needs access to yunohost ssl certs
-usermod -a -G ssl-cert $app
+cp ../conf/modules/* "$install_dir/modules/"
 
 mkdir -p $install_dir/conf
 chmod 700 $install_dir/conf
@@ -106,41 +64,37 @@ ynh_add_config --template="metronome.cfg.lua" --destination="$install_dir/conf/m
 ynh_add_config --template="domain.cfg.lua" --destination="$install_dir/conf/domain.cfg.lua"
 
 #=================================================
-# SETUP SYSTEMD
+# CONFIGURE NGINX
 #=================================================
-ynh_script_progression --message="Upgrading systemd configuration..."
+ynh_script_progression --message="Configuring Nginx for muc and xmpp-upload domains..."
+
+cp -R "../conf/hook_conf_regen" "/usr/share/yunohost/hooks/conf_regen/98-nginx_$app"
+yunohost tools regen-conf nginx
+
+#=================================================
+# REAPPLY SYSTEM CONFIGURATIONS
+#=================================================
+ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+
+# Metronome needs access to yunohost ssl certs
+usermod -a -G ssl-cert "$app"
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SETUP LOGROTATE
-#=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..."
-
-mkdir -p "/var/log/$app"
-chmod 750 "/var/log/$app"
-chmod -R o-rwx "/var/log/$app"
-chown -R $app:adm "/var/log/$app"
+yunohost service add "$app" --log="/var/log/$app/$app.log" --needs_exposed_ports $port_client $port_server
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append
-
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
-
-yunohost service add $app --log="/var/log/$app/$app.log" --needs_exposed_ports $port_client $port_server
+chmod 750 "/var/log/$app"
+chmod -R o-rwx "/var/log/$app"
+chown -R "$app:$app" "/var/log/$app"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..."
+ynh_script_progression --message="Starting $app's systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log" --line_match="Hello and welcome to Metronome"
+ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log" --line_match="Hello and welcome to Metronome"
 
 #=================================================
 # END OF SCRIPT
