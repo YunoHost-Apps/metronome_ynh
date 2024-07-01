@@ -18,6 +18,7 @@ _build_metronome() {
 	pushd "$install_dir/sources"
 		cp docker/config.unix ./
 		make generate_log.install send_mail.install install \
+			CFLAGS=-Wno-deprecated-declarations \
 			DESTDIR="$install_dir" \
 			BIN="$install_dir/bin" \
 			CONFIG="$install_dir/conf" \
