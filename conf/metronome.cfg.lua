@@ -1,23 +1,23 @@
 -- ** Metronome's config file example **
--- 
+--
 -- The format is exactly equal to Prosody's:
 --
--- Lists are written { "like", "this", "one" } 
--- Lists can also be of { 1, 2, 3 } numbers, etc. 
+-- Lists are written { "like", "this", "one" }
+-- Lists can also be of { 1, 2, 3 } numbers, etc.
 -- Either commas, or semi-colons; may be used as seperators.
 --
--- A table is a list of values, except each value has a name. An 
+-- A table is a list of values, except each value has a name. An
 -- example would be:
 --
 -- ssl = { key = "keyfile.key", certificate = "certificate.cert" }
 --
 -- Tip: You can check that the syntax of this file is correct when you have finished
 -- by running: luac -p metronome.cfg.lua
--- If there are any errors, it will let you know what and where they are, otherwise it 
+-- If there are any errors, it will let you know what and where they are, otherwise it
 -- will keep quiet.
 
 -- Global settings go in this section
- 
+
 -- This is the list of modules Metronome will load on startup.
 -- It looks for mod_modulename.lua in the plugins folder, so make sure that exists too.
 
@@ -27,7 +27,7 @@ modules_enabled = {
     "saslauth"; -- Authentication for clients. Recommended if you want to log in.
     "tls"; -- Add support for secure TLS on c2s/s2s connections
     "disco"; -- Service discovery
- 
+
     -- Not essential, but recommended
     "private"; -- Private XML storage (for room bookmarks, etc.)
     "vcard"; -- Allow users to set vCards
@@ -35,7 +35,7 @@ modules_enabled = {
     "pubsub";  -- Publish-subscribe XEP-0060
     "posix"; -- POSIX functionality, sends server to background, enables syslog, etc.
     "bidi"; -- Enables Bidirectional Server-to-Server Streams.
- 
+
     -- Nice to have
     "version"; -- Replies to server version requests
     "uptime"; -- Report how long server has been running
@@ -117,4 +117,4 @@ Component "localhost" "http"
 -- You need to add a VirtualHost entry for each domain you wish Metronome to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.
 
-Include "domain.cfg.lua"
+Include "conf.d/*.cfg.lua"

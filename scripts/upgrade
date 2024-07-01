@@ -26,6 +26,18 @@ ynh_script_progression --message="Stopping $app's systemd service..."
 ynh_systemd_action --service_name="$app" --action="stop" --log_path="/var/log/$app/$app.log"
 
 #=================================================
+# ENSURE DOWNWARD COMPATIBILITY
+#=================================================
+ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+
+if [ -f "$install_dir/conf/domain.cfg.lua" ]; then
+    mkdir -p "$install_dir/conf/conf.d"
+    mv "$install_dir/conf/domain.cfg.lua" "$install_dir/conf/conf.d/domain.cfg.lua"
+    ynh_delete_file_checksum --file="$install_dir/conf/domain.cfg.lua"
+    ynh_store_file_checksum --file="$install_dir/conf/conf.d/domain.cfg.lua"
+fi
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Upgrading source files..." --weight=1
@@ -56,12 +68,12 @@ ynh_script_progression --message="Configuring Metronome..."
 # Add YunoHost modules (are all those really needed ? Could just ldap2 ?)
 cp ../conf/modules/* "$install_dir/modules/"
 
-mkdir -p $install_dir/conf
-chmod 700 $install_dir/conf
-chown $app:root $install_dir/conf
+mkdir -p $install_dir/conf/conf.d
+chmod 700 "$install_dir/conf" "$install_dir/conf.d"
+chown "$app:root" "$install_dir/conf"
 
 ynh_add_config --template="metronome.cfg.lua" --destination="$install_dir/conf/metronome.cfg.lua"
-ynh_add_config --template="domain.cfg.lua" --destination="$install_dir/conf/domain.cfg.lua"
+ynh_add_config --template="domain.cfg.lua" --destination="$install_dir/conf/conf.d/domain.cfg.lua"
 
 #=================================================
 # CONFIGURE NGINX

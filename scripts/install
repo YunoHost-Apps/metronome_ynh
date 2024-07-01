@@ -28,12 +28,12 @@ ynh_script_progression --message="Configuring Metronome..."
 # Add YunoHost modules (are all those really needed ? Could just ldap2 ?)
 cp ../conf/modules/* "$install_dir/modules/"
 
-mkdir -p $install_dir/conf
-chmod 700 $install_dir/conf
-chown $app:root $install_dir/conf
+mkdir -p "$install_dir/conf/conf.d"
+chmod 700 "$install_dir/conf" "$install_dir/conf.d"
+chown "$app:root" "$install_dir/conf"
 
 ynh_add_config --template="metronome.cfg.lua" --destination="$install_dir/conf/metronome.cfg.lua"
-ynh_add_config --template="domain.cfg.lua" --destination="$install_dir/conf/domain.cfg.lua"
+ynh_add_config --template="domain.cfg.lua" --destination="$install_dir/conf/conf.d/domain.cfg.lua"
 
 #=================================================
 # CONFIGURE NGINX
