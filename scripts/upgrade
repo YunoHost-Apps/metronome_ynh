@@ -69,7 +69,7 @@ ynh_script_progression --message="Configuring Metronome..."
 cp ../conf/modules/* "$install_dir/modules/"
 
 mkdir -p $install_dir/conf/conf.d
-chmod 700 "$install_dir/conf" "$install_dir/conf.d"
+chmod 700 "$install_dir/conf" "$install_dir/conf/conf.d"
 chown "$app:root" "$install_dir/conf"
 
 ynh_add_config --template="metronome.cfg.lua" --destination="$install_dir/conf/metronome.cfg.lua"
