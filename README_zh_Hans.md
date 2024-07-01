@@ -5,7 +5,7 @@
 
 # YunoHost 上的 Metronome
 
-[![集成程度](https://dash.yunohost.org/integration/metronome.svg)](https://dash.yunohost.org/appci/app/metronome) ![工作状态](https://ci-apps.yunohost.org/ci/badges/metronome.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/metronome.maintain.svg)
+[![集成程度](https://dash.yunohost.org/integration/metronome.svg)](https://ci-apps.yunohost.org/ci/apps/metronome/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/metronome.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/metronome.maintain.svg)
 
 [![使用 YunoHost 安装 Metronome](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=metronome)
 
