@@ -5,7 +5,7 @@ EZ editatu eskuz.
 
 # Metronome YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/metronome.svg)](https://dash.yunohost.org/appci/app/metronome) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/metronome.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/metronome.maintain.svg)
+[![Integrazio maila](https://dash.yunohost.org/integration/metronome.svg)](https://ci-apps.yunohost.org/ci/apps/metronome/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/metronome.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/metronome.maintain.svg)
 
 [![Instalatu Metronome YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=metronome)
 

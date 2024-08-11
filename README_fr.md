@@ -5,7 +5,7 @@ Il NE doit PAS être modifié à la main.
 
 # Metronome pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/metronome.svg)](https://dash.yunohost.org/appci/app/metronome) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/metronome.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/metronome.maintain.svg)
+[![Niveau d’intégration](https://dash.yunohost.org/integration/metronome.svg)](https://ci-apps.yunohost.org/ci/apps/metronome/) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/metronome.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/metronome.maintain.svg)
 
 [![Installer Metronome avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=metronome)
 
