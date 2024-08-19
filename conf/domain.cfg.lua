@@ -69,6 +69,11 @@ Component "xmpp-upload.__DOMAIN__" "http_upload"
   http_upload_file_size_limit = 100 * 1024 * 1024 -- bytes
   http_upload_quota = 10 * 1024 * 1024 * 1024 -- bytes
 
+  -- Time after which uploaded files are deleted
+  -- Don't put too low or a client that was offline for some
+  -- time won't be able to find the files
+  http_file_expire_after = 5184000 -- seconds (60 days)
+
   http_file_add_mime_types = {
     ["pdf"] = "application/pdf",
     ["doc"] = "application/msword",
