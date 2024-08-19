@@ -80,6 +80,9 @@ ynh_add_config --template="domain.cfg.lua" --destination="$install_dir/conf/conf
 #=================================================
 ynh_script_progression --message="Configuring Nginx for muc and xmpp-upload domains..."
 
+# nginx needs read access to metronome files for HTTP upload
+_metronome_nginx_read_permissions
+
 cp -R "../conf/hook_conf_regen" "/usr/share/yunohost/hooks/conf_regen/98-nginx_$app"
 yunohost tools regen-conf nginx
 
