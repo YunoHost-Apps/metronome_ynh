@@ -69,6 +69,20 @@ Component "xmpp-upload.__DOMAIN__" "http_upload"
   http_upload_file_size_limit = 100 * 1024 * 1024 -- bytes
   http_upload_quota = 10 * 1024 * 1024 * 1024 -- bytes
 
+  http_file_add_mime_types = {
+    ["pdf"] = "application/pdf",
+    ["doc"] = "application/msword",
+    ["docx"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ["xlsx"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ["pptx"] = "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ["json"] = "application/json",
+    ["md"] = "text/markdown",
+    ["zip"] = "application/zip",
+    ["rar"] = "application/x-rar-compressed",
+    ["svg"] = "image/svg+xml",
+    ["webp"] = "image/webp"
+  }
+
 ---Set up a VJUD service
 Component "vjud.__DOMAIN__" "vjud"
   vjud_disco_name = "__DOMAIN__ User Directory"
