@@ -25,7 +25,7 @@ server {
     root /dev/null;
 
     location /upload/ {
-        alias $data_dir/xmpp-upload;
+        alias $data_dir/xmpp-upload/;
         # Pass all requests to metronome, except for GET and HEAD requests.
         limit_except GET HEAD {
           proxy_pass http://localhost:$port_http;

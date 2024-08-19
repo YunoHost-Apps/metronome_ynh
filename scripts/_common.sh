@@ -32,6 +32,16 @@ _build_metronome() {
 	popd
 }
 
+_metronome_nginx_read_permissions() {
+	# nginx needs read access to metronome files for HTTP upload
+	mkdir -p /home/yunohost.app/metronome/xmpp-upload
+	chown metronome:www-data /home/yunohost.app/metronome
+	chmod 750 /home/yunohost.app/metronome
+	chown metronome:www-data /home/yunohost.app/metronome/xmpp-upload
+	chmod 750 /home/yunohost.app/metronome/xmpp-upload
+	chmod g+s /home/yunohost.app/metronome/xmpp-upload
+}
+
 #=================================================
 # EXPERIMENTAL HELPERS
 #=================================================
