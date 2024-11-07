@@ -64,6 +64,7 @@ ram.runtime = "50M"
     [resources.apt]
     packages = [
         "make",
+        "gcc",
         "git",
         "lua5.3",
         "liblua5.3-dev",
