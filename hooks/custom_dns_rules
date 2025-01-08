@@ -13,7 +13,7 @@ cat << EOF >> $YNH_STDRETURN
   type: "SRV"
   value: "0 5 5222 $domain."
 
-- name: "_xmpp-client._tcp$suffix"
+- name: "_xmpp-server._tcp$suffix"
   ttl: 3600
   type: "SRV"
   value: "0 5 5269 $domain."

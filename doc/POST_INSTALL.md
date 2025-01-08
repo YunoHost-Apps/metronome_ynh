@@ -5,7 +5,7 @@ To be able to effectively use Metronome / your XMPP server, you need:
 ```text
 # Mandatory
 _xmpp-client._tcp 3600 IN SRV 0 5 5222 __DOMAIN__.
-_xmpp-client._tcp 3600 IN SRV 0 5 5269 __DOMAIN__.
+_xmpp-server._tcp 3600 IN SRV 0 5 5269 __DOMAIN__.
 
 # For muc (chatrooms) and file uploads
 muc 3600 IN CNAME __DOMAIN__.
