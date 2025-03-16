@@ -4,11 +4,10 @@ packaging_format = 2
 
 id = "metronome"
 name = "Metronome"
-
 description.en = "A lightweight XMPP server with advanced microblogging features."
 description.fr = "Un serveur XMPP léger avec des fonctionnalités avancées de microblogging"
 
-version = "4.0.3~ynh2"
+version = "4.0.4~ynh1"
 
 maintainers = []
 
@@ -29,7 +28,6 @@ ram.build = "50M"
 ram.runtime = "50M"
 
 [install]
-
     [install.domain]
     type = "domain"
 
@@ -40,8 +38,8 @@ ram.runtime = "50M"
 [resources]
 
     [resources.sources.main]
-    url = "https://github.com/maranda/metronome/archive/refs/tags/v4.0.3.tar.gz"
-    sha256 = "594ff7ebf15c38a73559c9ac6b5cd010b6c5aa8ed28ab68d5530ce0eb07bf81c"
+    url = "https://github.com/maranda/metronome/archive/refs/tags/v4.0.4.tar.gz"
+    sha256 = "e0c1b7043c416dddde198377be61a86438fad29a9bf132717ca17690d3341c74"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
@@ -49,6 +47,8 @@ ram.runtime = "50M"
     [resources.install_dir]
 
     [resources.data_dir]
+
+    [resources.permissions]
 
     [resources.ports]
     client.default = 5222
@@ -58,8 +58,6 @@ ram.runtime = "50M"
     client.exposed = true
     server.exposed = true
     http.default = 5290
-
-    [resources.permissions]
 
     [resources.apt]
     packages = [
