@@ -4,7 +4,6 @@ packaging_format = 2
 
 id = "metronome"
 name = "Metronome"
-
 description.en = "A lightweight XMPP server with advanced microblogging features."
 description.fr = "Un serveur XMPP léger avec des fonctionnalités avancées de microblogging"
 
@@ -29,7 +28,6 @@ ram.build = "50M"
 ram.runtime = "50M"
 
 [install]
-
     [install.domain]
     type = "domain"
 
@@ -50,6 +48,8 @@ ram.runtime = "50M"
 
     [resources.data_dir]
 
+    [resources.permissions]
+
     [resources.ports]
     client.default = 5222
     server.default = 5269
@@ -58,8 +58,6 @@ ram.runtime = "50M"
     client.exposed = true
     server.exposed = true
     http.default = 5290
-
-    [resources.permissions]
 
     [resources.apt]
     packages = [
