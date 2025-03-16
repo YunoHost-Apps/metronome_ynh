@@ -5,7 +5,9 @@ No se debe editar a mano.
 
 # Metronome para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/metronome.svg)](https://ci-apps.yunohost.org/ci/apps/metronome/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/metronome.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/metronome.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/metronome)](https://ci-apps.yunohost.org/ci/apps/metronome/)
+![Estado funcional](https://apps.yunohost.org/badge/state/metronome)
+![Estado En Mantención](https://apps.yunohost.org/badge/maintained/metronome)
 
 [![Instalar Metronome con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=metronome)
 
@@ -30,7 +32,7 @@ To use Metronome / XMPP, you will also need a client, for example:
 You will be able to connect using `your_yunohost_username@domain.tld` + your password (i.e. your credentials are the same as for email, but for instant messaging)
 
 
-**Versión actual:** 4.0.3~ynh2
+**Versión actual:** 4.0.4~ynh1
 ## Documentaciones y recursos
 
 - Sitio web oficial: <https://archon.im/metronome-im/>

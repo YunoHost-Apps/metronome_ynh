@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # Metronome untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/metronome.svg)](https://ci-apps.yunohost.org/ci/apps/metronome/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/metronome.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/metronome.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/metronome)](https://ci-apps.yunohost.org/ci/apps/metronome/)
+![Status kerja](https://apps.yunohost.org/badge/state/metronome)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/metronome)
 
 [![Pasang Metronome dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=metronome)
 
@@ -30,7 +32,7 @@ To use Metronome / XMPP, you will also need a client, for example:
 You will be able to connect using `your_yunohost_username@domain.tld` + your password (i.e. your credentials are the same as for email, but for instant messaging)
 
 
-**Versi terkirim:** 4.0.3~ynh2
+**Versi terkirim:** 4.0.4~ynh1
 ## Dokumentasi dan sumber daya
 
 - Website aplikasi resmi: <https://archon.im/metronome-im/>
