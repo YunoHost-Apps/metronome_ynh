@@ -32,7 +32,7 @@ To use Metronome / XMPP, you will also need a client, for example:
 You will be able to connect using `your_yunohost_username@domain.tld` + your password (i.e. your credentials are the same as for email, but for instant messaging)
 
 
-**Versión proporcionada:** 4.0.4~ynh1
+**Versión proporcionada:** 4.0.4~ynh2
 ## Documentación e recursos
 
 - Web oficial da app: <https://archon.im/metronome-im/>
