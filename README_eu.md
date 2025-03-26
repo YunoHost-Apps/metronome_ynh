@@ -45,7 +45,7 @@ You will be able to connect using `your_yunohost_username@domain.tld` + your pas
 
 Bidali `pull request`a [`testing` abarrera](https://github.com/YunoHost-Apps/metronome_ynh/tree/testing).
 
-`testing` abarra probatzeko, ondorengoa egin:
+`testing` abarra probatzeko, honakoa egin:
 
 ```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/metronome_ynh/tree/testing --debug
