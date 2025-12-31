@@ -57,8 +57,9 @@ _build_metronome
 ynh_safe_rm "$install_dir/conf"
 cp -r "$install_dir/conf_bkp" "$install_dir/conf"
 
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:$app" "$install_dir"
+chmod 750 "$install_dir"
+chown -R "$app:$app" "$install_dir"
+
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
@@ -99,9 +100,9 @@ yunohost service add "$app" --log="/var/log/$app/$app.log" --needs_exposed_ports
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_config_add_logrotate
-#REMOVEME? Assuming ynh_config_add_logrotate is called, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "/var/log/$app"
-#REMOVEME? Assuming ynh_config_add_logrotate is called, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "/var/log/$app"
-#REMOVEME? Assuming ynh_config_add_logrotate is called, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:$app" "/var/log/$app"
+chmod 750 "/var/log/$app"
+chmod -R o-rwx "/var/log/$app"
+chown -R "$app:$app" "/var/log/$app"
 
 #=================================================
 # START SYSTEMD SERVICE
