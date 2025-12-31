@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #=================================================
-# COMMON VARIABLES
+# COMMON VARIABLES AND CUSTOM HELPERS
 #=================================================
 
 if [[ $(lsb_release --codename --short) == "bookworm" ]]; then
@@ -9,10 +9,6 @@ if [[ $(lsb_release --codename --short) == "bookworm" ]]; then
 else
 	luaversion="5.2"
 fi
-
-#=================================================
-# PERSONAL HELPERS
-#=================================================
 
 _build_metronome() {
 	pushd "$install_dir/sources"
@@ -41,11 +37,3 @@ _metronome_nginx_read_permissions() {
 	chmod 750 /home/yunohost.app/metronome/xmpp-upload
 	chmod g+s /home/yunohost.app/metronome/xmpp-upload
 }
-
-#=================================================
-# EXPERIMENTAL HELPERS
-#=================================================
-
-#=================================================
-# FUTURE OFFICIAL HELPERS
-#=================================================
