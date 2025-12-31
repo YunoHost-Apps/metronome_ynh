@@ -4,8 +4,8 @@ packaging_format = 2
 
 id = "metronome"
 name = "Metronome"
-description.en = "A lightweight XMPP server with advanced microblogging features."
-description.fr = "Un serveur XMPP léger avec des fonctionnalités avancées de microblogging"
+description.en = "Lightweight XMPP server with advanced microblogging features"
+description.fr = "Serveur XMPP léger avec des fonctionnalités avancées de microblogging"
 
 version = "4.0.5~ynh1"
 
@@ -18,11 +18,14 @@ admindoc = "https://archon.im/metronome-im/documentation/"
 code = "https://github.com/maranda/metronome"
 
 [integration]
-yunohost = ">= 12.0"
+yunohost = ">= 12.1.17"
+helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
+
 ldap = true
 sso = "not_relevant"
+
 disk = "50M"
 ram.build = "50M"
 ram.runtime = "50M"
