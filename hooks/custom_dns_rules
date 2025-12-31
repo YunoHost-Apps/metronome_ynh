@@ -8,22 +8,22 @@ then
 fi
 
 cat << EOF >> $YNH_STDRETURN
-- name: "_xmpp-client._tcp$suffix"
+- name: "_xmpp-client._tcp"
   ttl: 3600
   type: "SRV"
   value: "0 5 5222 $domain."
 
-- name: "_xmpp-server._tcp$suffix"
+- name: "_xmpp-server._tcp"
   ttl: 3600
   type: "SRV"
   value: "0 5 5269 $domain."
 
-- name: "muc$suffix"
+- name: "muc"
   ttl: 3600
   type: "CNAME"
   value: "$domain."
 
-- name: "xmpp-upload$suffix"
+- name: "xmpp-upload"
   ttl: 3600
   type: "CNAME"
   value: "$domain."
