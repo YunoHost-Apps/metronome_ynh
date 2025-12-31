@@ -8,7 +8,7 @@ It shall NOT be edited by hand.
   Metronome, packaged for YunoHost
 </h1>
 
-A lightweight XMPP server with advanced microblogging features.
+Lightweight XMPP server with advanced microblogging features
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://archon.im/metronome-im/)
 [![Version: 4.0.5~ynh1](https://img.shields.io/badge/Version-4.0.5~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/metronome/)
