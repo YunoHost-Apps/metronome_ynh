@@ -4,8 +4,8 @@ packaging_format = 2
 
 id = "metronome"
 name = "Metronome"
-description.en = "A lightweight XMPP server with advanced microblogging features."
-description.fr = "Un serveur XMPP léger avec des fonctionnalités avancées de microblogging"
+description.en = Lightweight XMPP server with advanced microblogging features."
+description.fr = "Serveur XMPP léger avec des fonctionnalités avancées de microblogging"
 
 version = "4.0.5~ynh1"
 
